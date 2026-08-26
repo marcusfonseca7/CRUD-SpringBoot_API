@@ -3,6 +3,7 @@ package com.marcus.teste;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,8 +32,8 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public Usuario cadastrarUsuario(@RequestBody Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public void cadastrarUsuarios(@RequestBody Usuario[] usuario) {
+        usuarioRepository.saveAll(Arrays.asList(usuario));
     }
 
     @PutMapping("/{id}")
