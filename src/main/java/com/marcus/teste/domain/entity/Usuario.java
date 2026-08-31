@@ -1,4 +1,4 @@
-package com.marcus.teste;
+package com.marcus.teste.domain.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -32,6 +32,7 @@ import java.util.UUID;
 public class Usuario {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false, updatable = false)
     private UUID id;
 

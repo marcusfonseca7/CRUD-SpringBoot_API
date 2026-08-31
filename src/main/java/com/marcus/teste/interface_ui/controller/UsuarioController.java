@@ -1,5 +1,8 @@
-package com.marcus.teste;
+package com.marcus.teste.interface_ui.controller;
 
+import com.marcus.teste.domain.repository.UsuarioRepository;
+import com.marcus.teste.domain.entity.Usuario;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,18 +29,18 @@ public class UsuarioController {
 
         if(usuarioOpt.isPresent()) {
             return usuarioOpt.get();
-        }else{
+        } else{
          throw new RuntimeException("Usuário não encontrado");
         }
     }
 
     @PostMapping
-    public void cadastrarUsuarios(@RequestBody Usuario[] usuario) {
+    public void cadastrarUsuarios(@Valid @RequestBody Usuario[] usuario) {
         usuarioRepository.saveAll(Arrays.asList(usuario));
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizarUsuario(@PathVariable UUID id, @RequestBody Usuario usuario){
+    public Usuario atualizarUsuario(@Valid @PathVariable UUID id, @RequestBody Usuario usuario){
         Usuario usuarioExistente = buscarUsuarioPorId(id);
         usuarioExistente.setNome(usuario.getNome());
         usuarioExistente.setCpf(usuario.getCpf());

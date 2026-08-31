@@ -1,5 +1,6 @@
-package com.marcus.teste;
+package com.marcus.teste.domain.repository;
 
+import com.marcus.teste.domain.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
