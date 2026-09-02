@@ -1,5 +1,6 @@
 package com.marcus.teste.interface_ui.controller;
 
+import com.marcus.teste.application.service.UsuarioService;
 import com.marcus.teste.domain.repository.UsuarioRepository;
 import com.marcus.teste.domain.entity.Usuario;
 import jakarta.validation.Valid;
@@ -16,42 +17,31 @@ import java.util.UUID;
 @RequestMapping("/usuario")
 public class UsuarioController {
 
-    final UsuarioRepository usuarioRepository;
+    final UsuarioService usuarioService;
 
     @GetMapping
     public List<Usuario> listarTodosUsuarios() {
-        return usuarioRepository.findAll();
+        return usuarioService.findAll();
     }
 
     @GetMapping("/{id}")
     public Usuario buscarUsuarioPorId(@PathVariable UUID id) {
-        Optional<Usuario> usuarioOpt = usuarioRepository.findById(id);
-
-        if(usuarioOpt.isPresent()) {
-            return usuarioOpt.get();
-        } else{
-         throw new RuntimeException("Usuário não encontrado");
-        }
+        return usuarioService.findById(id);
     }
 
     @PostMapping
-    public void cadastrarUsuarios(@Valid @RequestBody Usuario[] usuario) {
-        usuarioRepository.saveAll(Arrays.asList(usuario));
+    public Usuario cadastrarUsuarios(@Valid @RequestBody Usuario usuario) {
+        return usuarioService.save(usuario);
     }
 
     @PutMapping("/{id}")
     public Usuario atualizarUsuario(@Valid @PathVariable UUID id, @RequestBody Usuario usuario){
-        Usuario usuarioExistente = buscarUsuarioPorId(id);
-        usuarioExistente.setNome(usuario.getNome());
-        usuarioExistente.setCpf(usuario.getCpf());
-        usuarioExistente.setEmail(usuario.getEmail());
-
-        return usuarioRepository.save(usuarioExistente);
+        return usuarioService.update(id, usuario);
     }
 
     @DeleteMapping("/{id}")
     public void deletarUsuario(@PathVariable UUID id) {
-        usuarioRepository.deleteById(id);
+        usuarioService.deleteById(id);
     }
 
 }
